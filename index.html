@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yinsong Zhu — Data Scientist</title>
+  <meta name="description" content="Data Scientist specializing in credit risk, fraud detection, and ML modeling in the financial services industry." />
+  <style>
+    /* ── Reset & base ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #0a192f;
+      --navy-light: #112240;
+      --navy-mid:   #1d3461;
+      --teal:       #64ffda;
+      --teal-dim:   rgba(100,255,218,.1);
+      --teal-dim2:  rgba(100,255,218,.07);
+      --slate:      #8892b0;
+      --slate-light:#a8b2d8;
+      --white:      #ccd6f6;
+      --white-bright:#e6f1ff;
+      --font-mono:  'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--slate);
+      font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    a { color: var(--teal); text-decoration: none; transition: opacity .2s; }
+    a:hover { opacity: .8; }
+
+    /* ── Scrollbar ────────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--navy); }
+    ::-webkit-scrollbar-thumb { background: var(--navy-mid); border-radius: 4px; }
+
+    /* ── Nav ──────────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2.5rem;
+      background: rgba(10,25,47,.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(100,255,218,.08);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 30px rgba(2,12,27,.7); }
+
+    .nav-logo {
+      font-family: var(--font-mono);
+      color: var(--teal);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      color: var(--slate-light);
+      counter-increment: nav-counter;
+    }
+    .nav-links a::before {
+      color: var(--teal);
+      font-size: .75rem;
+      margin-right: .35em;
+    }
+    .nav-links li:nth-child(1) a::before { content: "01."; }
+    .nav-links li:nth-child(2) a::before { content: "02."; }
+    .nav-links li:nth-child(3) a::before { content: "03."; }
+    .nav-links li:nth-child(4) a::before { content: "04."; }
+    .nav-links li:nth-child(5) a::before { content: "05."; }
+
+    .nav-resume {
+      border: 1px solid var(--teal);
+      color: var(--teal);
+      padding: .45rem 1rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      transition: background .2s;
+    }
+    .nav-resume:hover { background: var(--teal-dim); opacity: 1; }
+
+    /* ── Sections ─────────────────────────────────────────────────── */
+    section { padding: 6rem 0; max-width: 1000px; margin: 0 auto; padding-left: 2rem; padding-right: 2rem; }
+
+    .section-heading {
+      display: flex; align-items: center; gap: 1rem;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--white);
+      margin-bottom: 2.5rem;
+      white-space: nowrap;
+    }
+    .section-heading::before {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      color: var(--teal);
+    }
+    .section-heading::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 1px;
+      background: var(--navy-mid);
+    }
+    #about    .section-heading::before { content: "01. "; }
+    #skills   .section-heading::before { content: "02. "; }
+    #projects .section-heading::before { content: "03. "; }
+    #experience .section-heading::before { content: "04. "; }
+    #contact  .section-heading::before { content: "05. "; }
+
+    /* ── Hero ─────────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding-top: 5rem;
+      max-width: 1000px; margin: 0 auto; padding-left: 2rem; padding-right: 2rem;
+    }
+
+    .hero-greeting {
+      font-family: var(--font-mono);
+      color: var(--teal);
+      font-size: 1rem;
+      margin-bottom: .8rem;
+    }
+
+    .hero-name {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700;
+      color: var(--white-bright);
+      line-height: 1.1;
+    }
+
+    .hero-tagline {
+      font-size: clamp(1.6rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--slate);
+      line-height: 1.1;
+      margin-top: .2rem;
+    }
+
+    .hero-desc {
+      max-width: 520px;
+      margin-top: 1.4rem;
+      font-size: 1rem;
+      color: var(--slate);
+      line-height: 1.8;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      margin-top: 2.5rem;
+      border: 1px solid var(--teal);
+      color: var(--teal);
+      padding: .9rem 2rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: .95rem;
+      transition: background .2s;
+    }
+    .hero-cta:hover { background: var(--teal-dim); opacity: 1; }
+
+    /* ── About ────────────────────────────────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .about-text p { margin-bottom: 1rem; line-height: 1.8; }
+    .about-text p strong { color: var(--white); }
+
+    .about-photo-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 280px;
+      justify-self: center;
+    }
+    .about-photo-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 16px; left: 16px;
+      width: 100%; height: 100%;
+      border: 2px solid var(--teal);
+      border-radius: 6px;
+      z-index: 0;
+      transition: top .3s, left .3s;
+    }
+    .about-photo-wrapper:hover::after { top: 10px; left: 10px; }
+    .about-photo {
+      position: relative; z-index: 1;
+      width: 100%;
+      border-radius: 6px;
+      display: block;
+      background: var(--navy-light);
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
+      user-select: none;
+    }
+
+    /* ── Skills ───────────────────────────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-card {
+      background: var(--navy-light);
+      border: 1px solid rgba(100,255,218,.1);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: transform .2s, border-color .2s;
+    }
+    .skill-card:hover { transform: translateY(-4px); border-color: rgba(100,255,218,.3); }
+
+    .skill-card-header {
+      display: flex; align-items: center; gap: .75rem;
+      margin-bottom: 1.2rem;
+    }
+    .skill-icon { font-size: 1.5rem; }
+    .skill-card-title { color: var(--white); font-weight: 600; font-size: 1rem; }
+
+    .skill-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--teal);
+      background: var(--teal-dim2);
+      border: 1px solid rgba(100,255,218,.2);
+      border-radius: 3px;
+      padding: .2rem .55rem;
+    }
+    .tag.strong { background: rgba(100,255,218,.18); font-weight: 600; }
+
+    .skill-proficiency {
+      margin-top: 1rem;
+    }
+    .prof-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: .5rem;
+    }
+    .prof-label { font-size: .82rem; color: var(--slate-light); }
+    .prof-bar-bg {
+      width: 60%; height: 4px;
+      background: rgba(255,255,255,.08);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .prof-bar { height: 100%; background: var(--teal); border-radius: 2px; }
+
+    /* ── Projects ─────────────────────────────────────────────────── */
+    .projects-list { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .project-card {
+      background: var(--navy-light);
+      border: 1px solid rgba(100,255,218,.1);
+      border-radius: 8px;
+      padding: 1.8rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      transition: transform .2s, border-color .2s;
+    }
+    .project-card:hover { transform: translateY(-3px); border-color: rgba(100,255,218,.3); }
+
+    .project-top { display: flex; align-items: center; gap: .8rem; margin-bottom: .5rem; }
+    .project-folder { color: var(--teal); font-size: 1.3rem; }
+    .project-title { color: var(--white); font-weight: 600; font-size: 1.05rem; }
+    .project-links { display: flex; gap: .8rem; }
+    .project-links a { color: var(--slate-light); font-size: 1.1rem; }
+    .project-links a:hover { color: var(--teal); }
+
+    .project-desc { font-size: .92rem; line-height: 1.7; margin-bottom: 1rem; }
+    .project-tech { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .project-tech span {
+      font-family: var(--font-mono);
+      font-size: .73rem;
+      color: var(--teal);
+      background: var(--teal-dim2);
+      border-radius: 3px;
+      padding: .15rem .5rem;
+    }
+    .project-meta { font-size: .8rem; color: var(--teal); font-family: var(--font-mono); }
+
+    /* ── Experience ───────────────────────────────────────────────── */
+    .exp-tabs { display: flex; flex-direction: row; gap: 0; }
+
+    .tab-list {
+      display: flex; flex-direction: column;
+      border-left: 2px solid var(--navy-mid);
+      min-width: 160px;
+    }
+    .tab-btn {
+      background: none; border: none; cursor: pointer;
+      text-align: left;
+      padding: .8rem 1.2rem;
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      color: var(--slate);
+      border-left: 2px solid transparent;
+      margin-left: -2px;
+      transition: color .2s, background .2s, border-color .2s;
+    }
+    .tab-btn:hover { color: var(--teal); background: var(--teal-dim); }
+    .tab-btn.active { color: var(--teal); border-left-color: var(--teal); background: var(--teal-dim); }
+
+    .tab-panel { display: none; padding: .5rem 0 .5rem 2rem; flex: 1; }
+    .tab-panel.active { display: block; }
+
+    .exp-title { color: var(--white); font-size: 1.1rem; font-weight: 600; margin-bottom: .2rem; }
+    .exp-title span { color: var(--teal); }
+    .exp-date {
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      color: var(--slate);
+      margin-bottom: 1rem;
+    }
+    .exp-bullets { list-style: none; }
+    .exp-bullets li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: .7rem;
+      font-size: .93rem;
+      line-height: 1.7;
+    }
+    .exp-bullets li::before {
+      content: '▹';
+      position: absolute; left: 0;
+      color: var(--teal);
+    }
+    .exp-bullets li strong { color: var(--white); }
+
+    /* ── Contact ──────────────────────────────────────────────────── */
+    #contact { text-align: center; }
+    #contact .section-heading { justify-content: center; }
+    #contact .section-heading::after { display: none; }
+    .contact-sub {
+      font-family: var(--font-mono);
+      color: var(--teal);
+      font-size: .9rem;
+      margin-bottom: 1.2rem;
+    }
+    .contact-text {
+      max-width: 520px; margin: 0 auto;
+      font-size: 1rem; line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+    .contact-email {
+      display: inline-block;
+      border: 1px solid var(--teal);
+      color: var(--teal);
+      padding: 1rem 2.5rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: .95rem;
+      transition: background .2s;
+    }
+    .contact-email:hover { background: var(--teal-dim); opacity: 1; }
+
+    .social-links {
+      display: flex; justify-content: center; gap: 2rem;
+      margin-top: 3rem;
+    }
+    .social-links a { color: var(--slate); font-size: .9rem; transition: color .2s; }
+    .social-links a:hover { color: var(--teal); }
+
+    /* ── Footer ───────────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      color: var(--slate);
+    }
+
+    /* ── Fade-in animation ────────────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Responsive ───────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-photo-wrapper { max-width: 200px; margin: 0 auto; }
+      .project-card { grid-template-columns: 1fr; }
+      .exp-tabs { flex-direction: column; }
+      .tab-list { flex-direction: row; border-left: none; border-bottom: 2px solid var(--navy-mid); overflow-x: auto; }
+      .tab-btn { border-left: none; border-bottom: 2px solid transparent; margin-left: 0; margin-bottom: -2px; }
+      .tab-btn.active { border-left-color: transparent; border-bottom-color: var(--teal); }
+      .tab-panel { padding: 1.5rem 0 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ─────────────────────────────────────────────────────────── -->
+<nav id="nav">
+  <div class="nav-logo">&lt;YZ /&gt;</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#" class="nav-resume" onclick="alert('Add your resume PDF link here.')">Resume</a>
+</nav>
+
+<!-- ── HERO ────────────────────────────────────────────────────────── -->
+<section id="hero">
+  <p class="hero-greeting">Hi, my name is</p>
+  <h1 class="hero-name">Yinsong Zhu.</h1>
+  <h2 class="hero-tagline">I turn data into credit decisions.</h2>
+  <p class="hero-desc">
+    I'm a data scientist specializing in <strong style="color:var(--white)">credit risk modeling</strong>
+    and <strong style="color:var(--white)">fraud detection</strong> in the financial services industry.
+    I build ML pipelines that move the needle on risk-adjusted profitability and portfolio performance.
+  </p>
+  <a href="#about" class="hero-cta">Learn more about me</a>
+</section>
+
+<!-- ── ABOUT ───────────────────────────────────────────────────────── -->
+<section id="about">
+  <h2 class="section-heading">About Me</h2>
+  <div class="about-grid fade-up">
+    <div class="about-text">
+      <p>
+        I'm a data scientist with hands-on experience in the <strong>credit card and consumer lending industry</strong>.
+        My work sits at the intersection of machine learning, statistical modeling, and business strategy —
+        translating raw transactional data into actionable credit and risk decisions.
+      </p>
+      <p>
+        On a typical day, I'm building gradient-boosted models for <strong>fraud detection</strong>,
+        developing <strong>credit risk scorecards</strong>, or designing A/B tests to evaluate new underwriting
+        strategies. I care deeply about model explainability, fairness, and regulatory compliance (ECOA, FCRA).
+      </p>
+      <p>
+        Outside of work, I apply the same analytical rigor to personal projects — including a
+        physics-based <strong>ballistic trajectory solver</strong> built with Python and Plotly Dash,
+        which taught me a lot about numerical methods and scientific computing.
+      </p>
+      <p>
+        I hold a degree in <strong>[Your Degree, e.g. Statistics / Applied Math]</strong> from
+        <strong>[Your University]</strong> and have been working in fintech data science since
+        <strong>[Your Start Year]</strong>.
+      </p>
+    </div>
+    <div class="about-photo-wrapper">
+      <div class="about-photo">👤</div>
+      <!-- Replace the div above with:
+           <img src="photo.jpg" alt="Yinsong Zhu" class="about-photo" />
+           once you have a photo -->
+    </div>
+  </div>
+</section>
+
+<!-- ── SKILLS ──────────────────────────────────────────────────────── -->
+<section id="skills">
+  <h2 class="section-heading">Technical Skills</h2>
+  <div class="skills-grid fade-up">
+
+    <!-- ML & Modeling -->
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <span class="skill-icon">🤖</span>
+        <span class="skill-card-title">ML &amp; Predictive Modeling</span>
+      </div>
+      <div class="skill-tags">
+        <span class="tag strong">XGBoost</span>
+        <span class="tag strong">LightGBM</span>
+        <span class="tag">scikit-learn</span>
+        <span class="tag strong">Logistic Regression</span>
+        <span class="tag">Random Forest</span>
+        <span class="tag">Neural Networks</span>
+        <span class="tag">Isotonic Regression</span>
+        <span class="tag">SHAP / Explainability</span>
+      </div>
+      <div class="skill-proficiency">
+        <div class="prof-row">
+          <span class="prof-label">Model development</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:95%"></div></div>
+        </div>
+        <div class="prof-row">
+          <span class="prof-label">Feature engineering</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:92%"></div></div>
+        </div>
+        <div class="prof-row">
+          <span class="prof-label">Model evaluation (KS, AUC, PSI)</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:90%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Python ecosystem -->
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <span class="skill-icon">🐍</span>
+        <span class="skill-card-title">Python Ecosystem</span>
+      </div>
+      <div class="skill-tags">
+        <span class="tag strong">Python</span>
+        <span class="tag strong">pandas</span>
+        <span class="tag strong">numpy</span>
+        <span class="tag">scipy</span>
+        <span class="tag">Plotly / Dash</span>
+        <span class="tag">Matplotlib</span>
+        <span class="tag">seaborn</span>
+        <span class="tag">Jupyter</span>
+        <span class="tag">pytest</span>
+      </div>
+      <div class="skill-proficiency">
+        <div class="prof-row">
+          <span class="prof-label">Data wrangling</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:95%"></div></div>
+        </div>
+        <div class="prof-row">
+          <span class="prof-label">Scientific computing</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:85%"></div></div>
+        </div>
+        <div class="prof-row">
+          <span class="prof-label">Visualization</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:88%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Credit & Risk Domain -->
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <span class="skill-icon">💳</span>
+        <span class="skill-card-title">Credit &amp; Risk Domain</span>
+      </div>
+      <div class="skill-tags">
+        <span class="tag strong">Credit Scoring</span>
+        <span class="tag strong">Fraud Detection</span>
+        <span class="tag">Underwriting Strategy</span>
+        <span class="tag">Vintage Analysis</span>
+        <span class="tag">Delinquency Forecasting</span>
+        <span class="tag">ECOA / FCRA Compliance</span>
+        <span class="tag">Adverse Action</span>
+        <span class="tag">Champion-Challenger</span>
+      </div>
+      <div class="skill-proficiency">
+        <div class="prof-row">
+          <span class="prof-label">Credit lifecycle modeling</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:90%"></div></div>
+        </div>
+        <div class="prof-row">
+          <span class="prof-label">Regulatory awareness</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:80%"></div></div>
+        </div>
+        <div class="prof-row">
+          <span class="prof-label">Strategy &amp; A/B testing</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:85%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SQL & Data Eng -->
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <span class="skill-icon">🗄️</span>
+        <span class="skill-card-title">SQL &amp; Data Engineering</span>
+      </div>
+      <div class="skill-tags">
+        <span class="tag strong">SQL</span>
+        <span class="tag">Teradata</span>
+        <span class="tag">Snowflake</span>
+        <span class="tag">PostgreSQL</span>
+        <span class="tag">Spark / PySpark</span>
+        <span class="tag">dbt</span>
+        <span class="tag">Airflow</span>
+        <span class="tag">ETL pipelines</span>
+      </div>
+      <div class="skill-proficiency">
+        <div class="prof-row">
+          <span class="prof-label">Complex SQL queries</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:90%"></div></div>
+        </div>
+        <div class="prof-row">
+          <span class="prof-label">Pipeline orchestration</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:75%"></div></div>
+        </div>
+        <div class="prof-row">
+          <span class="prof-label">Big data processing</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:72%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MLOps & Cloud -->
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <span class="skill-icon">☁️</span>
+        <span class="skill-card-title">MLOps &amp; Cloud</span>
+      </div>
+      <div class="skill-tags">
+        <span class="tag">MLflow</span>
+        <span class="tag">Docker</span>
+        <span class="tag">AWS (S3, SageMaker)</span>
+        <span class="tag">Git / GitHub</span>
+        <span class="tag">CI/CD</span>
+        <span class="tag">Model monitoring</span>
+        <span class="tag">PSI / CSI tracking</span>
+      </div>
+      <div class="skill-proficiency">
+        <div class="prof-row">
+          <span class="prof-label">Model deployment</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:75%"></div></div>
+        </div>
+        <div class="prof-row">
+          <span class="prof-label">Model monitoring</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:80%"></div></div>
+        </div>
+        <div class="prof-row">
+          <span class="prof-label">Cloud infrastructure</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:65%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <span class="skill-icon">📊</span>
+        <span class="skill-card-title">Statistics &amp; Experimentation</span>
+      </div>
+      <div class="skill-tags">
+        <span class="tag strong">Hypothesis testing</span>
+        <span class="tag strong">A/B testing</span>
+        <span class="tag">Bayesian inference</span>
+        <span class="tag">Time series</span>
+        <span class="tag">Survival analysis</span>
+        <span class="tag">Regression</span>
+        <span class="tag">Bootstrap</span>
+        <span class="tag">R</span>
+      </div>
+      <div class="skill-proficiency">
+        <div class="prof-row">
+          <span class="prof-label">Experimental design</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:85%"></div></div>
+        </div>
+        <div class="prof-row">
+          <span class="prof-label">Statistical inference</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:88%"></div></div>
+        </div>
+        <div class="prof-row">
+          <span class="prof-label">Time series modeling</span>
+          <div class="prof-bar-bg"><div class="prof-bar" style="width:78%"></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── PROJECTS ─────────────────────────────────────────────────────── -->
+<section id="projects">
+  <h2 class="section-heading">Projects</h2>
+  <div class="projects-list fade-up">
+
+    <div class="project-card">
+      <div>
+        <div class="project-top">
+          <span class="project-folder">📁</span>
+          <span class="project-title">Ballistic Trajectory Solver</span>
+        </div>
+        <p class="project-desc">
+          Physics-based long-range rifle ballistic calculator built from first principles.
+          Solves the 6-DOF point-mass ODE using RK4 / <code>scipy.integrate.solve_ivp</code>,
+          incorporating G7 drag models, atmospheric correction (temperature, altitude, humidity),
+          spin drift, and Coriolis effects. Results validated against JBM Ballistics reference tables.
+          Outputs scope adjustments in MOA and MIL via an interactive Plotly Dash web app.
+        </p>
+        <div class="project-tech">
+          <span>Python</span><span>scipy</span><span>numpy</span>
+          <span>Plotly Dash</span><span>Numerical ODE</span><span>G7 Ballistics</span>
+        </div>
+      </div>
+      <div>
+        <p class="project-meta">Personal Project</p>
+        <div class="project-links">
+          <a href="https://github.com/pyinsong" title="GitHub" target="_blank">⬡ GitHub</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div>
+        <div class="project-top">
+          <span class="project-folder">📁</span>
+          <span class="project-title">[Credit Risk Scorecard — Add Your Project]</span>
+        </div>
+        <p class="project-desc">
+          Placeholder — describe a credit risk or fraud detection project here.
+          Example: Developed an account-level PD (probability of default) model using LightGBM
+          on [N]M+ records, achieving AUC of 0.XX and KS of XX. Applied WoE binning,
+          monotonicity constraints, and SHAP for regulatory explainability.
+        </p>
+        <div class="project-tech">
+          <span>Python</span><span>LightGBM</span><span>SHAP</span>
+          <span>SQL</span><span>Scorecard</span>
+        </div>
+      </div>
+      <div>
+        <p class="project-meta">[Work / Academic]</p>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div>
+        <div class="project-top">
+          <span class="project-folder">📁</span>
+          <span class="project-title">[Fraud Detection — Add Your Project]</span>
+        </div>
+        <p class="project-desc">
+          Placeholder — describe a fraud or anomaly detection project here.
+          Example: Built a real-time transaction fraud detection model using XGBoost + rule overlay,
+          reducing false-positive rate by XX% while maintaining XX% fraud capture rate.
+        </p>
+        <div class="project-tech">
+          <span>Python</span><span>XGBoost</span><span>Anomaly Detection</span>
+          <span>Spark</span>
+        </div>
+      </div>
+      <div>
+        <p class="project-meta">[Work / Academic]</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ───────────────────────────────────────────────────── -->
+<section id="experience">
+  <h2 class="section-heading">Experience</h2>
+  <div class="exp-tabs fade-up">
+    <div class="tab-list" role="tablist">
+      <button class="tab-btn active" role="tab" onclick="switchTab(this, 'job1')">[Company 1]</button>
+      <button class="tab-btn"        role="tab" onclick="switchTab(this, 'job2')">[Company 2]</button>
+      <button class="tab-btn"        role="tab" onclick="switchTab(this, 'edu')">[University]</button>
+    </div>
+
+    <div id="job1" class="tab-panel active">
+      <p class="exp-title">Data Scientist <span>@ [Your Current Company]</span></p>
+      <p class="exp-date">[Month Year] — Present · [City, State]</p>
+      <ul class="exp-bullets">
+        <li>Built and maintained <strong>credit risk models</strong> (PD, LGD, EAD) used in underwriting decisions for [product, e.g., credit card / BNPL] portfolio.</li>
+        <li>Developed <strong>fraud detection models</strong> using gradient-boosted trees, reducing fraud loss by approximately <strong>XX%</strong> without increasing false-positive rates.</li>
+        <li>Designed and analyzed <strong>champion-challenger A/B tests</strong> across credit line assignment and pricing strategies, informing policy decisions affecting $XXM in annual credit exposure.</li>
+        <li>Automated model monitoring pipelines tracking <strong>PSI, CSI, and KS</strong> across production models; built automated alerting for population drift.</li>
+        <li>Collaborated cross-functionally with risk, compliance, and product teams to ensure models meet <strong>ECOA / FCRA regulatory standards</strong>.</li>
+      </ul>
+    </div>
+
+    <div id="job2" class="tab-panel">
+      <p class="exp-title">Data Scientist / Analyst <span>@ [Previous Company]</span></p>
+      <p class="exp-date">[Month Year] — [Month Year] · [City, State]</p>
+      <ul class="exp-bullets">
+        <li>Add your previous role bullets here — focus on quantified impact and technical methods.</li>
+        <li>Example: Developed <strong>customer segmentation</strong> models using K-means and hierarchical clustering to support targeted marketing campaigns.</li>
+        <li>Example: Wrote complex <strong>SQL queries</strong> against Teradata data warehouse to extract and transform features for model training datasets spanning 3+ years of transaction history.</li>
+      </ul>
+    </div>
+
+    <div id="edu" class="tab-panel">
+      <p class="exp-title">[Your Degree] <span>@ [Your University]</span></p>
+      <p class="exp-date">[Year] — [Year]</p>
+      <ul class="exp-bullets">
+        <li>Relevant coursework: Machine Learning, Statistical Learning, Probability Theory, Linear Algebra, Database Systems, [add yours].</li>
+        <li>GPA: [X.XX / 4.0] &nbsp;·&nbsp; [Any honors, awards, or relevant activities]</li>
+        <li>Thesis / capstone: [Brief description if applicable]</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ──────────────────────────────────────────────────────── -->
+<section id="contact">
+  <p class="contact-sub">05. What's next?</p>
+  <h2 class="section-heading" style="justify-content:center; margin-bottom:.8rem">Get In Touch</h2>
+  <p class="contact-text">
+    I'm actively exploring new opportunities in credit risk, fraud, and data science — especially roles
+    working on meaningful financial products. Whether you have a role in mind or just want to connect,
+    my inbox is open.
+  </p>
+  <a href="mailto:yinsongpp@outlook.com" class="contact-email">Say Hello</a>
+
+  <div class="social-links">
+    <a href="https://github.com/pyinsong" target="_blank">GitHub — pyinsong</a>
+    <a href="https://linkedin.com/in/[your-linkedin]" target="_blank">LinkedIn</a>
+    <a href="mailto:yinsongpp@outlook.com">yinsongpp@outlook.com</a>
+  </div>
+</section>
+
+<footer>
+  <p>Designed &amp; built by Yinsong Zhu &nbsp;·&nbsp;
+     <a href="https://github.com/pyinsong/pyinsong.github.io" target="_blank">View source</a>
+  </p>
+</footer>
+
+<script>
+  // Nav shadow on scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Fade-in on scroll
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.12 }
+  );
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Experience tabs
+  function switchTab(btn, panelId) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(panelId).classList.add('active');
+  }
+</script>
+
+</body>
+</html>
