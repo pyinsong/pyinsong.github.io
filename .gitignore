@@ -1,0 +1,7 @@
+# Word documents and lock files
+*.docx
+*.doc
+~$*
+
+# macOS
+.DS_Store
