@@ -417,7 +417,7 @@
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#projects">Projects</a></li>
-    <li><a href="#experience">Experience</a></li>
+    <li><a href="#experience">Education</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <a href="#" class="nav-resume" onclick="alert('Add your resume PDF link here.')">Resume</a>
@@ -451,11 +451,6 @@
         response, and approval decisions using alternative FCRA credit data. I care deeply about
         model explainability (SHAP), regulatory compliance (ECOA, FCRA, adverse action), and
         post-deployment drift monitoring to keep models healthy in production.
-      </p>
-      <p>
-        Outside of work, I apply the same rigor to personal projects — including a physics-based
-        <strong>ballistic trajectory solver</strong> built with Python and Plotly Dash, which sharpened
-        my skills in numerical methods and scientific computing.
       </p>
       <p>
         I hold an <strong>M.Eng. in Operations Research &amp; Information Engineering</strong> from
@@ -675,7 +670,7 @@
 
 <!-- ── PROJECTS ─────────────────────────────────────────────────────── -->
 <section id="projects">
-  <h2 class="section-heading">Projects</h2>
+  <h2 class="section-heading">Personal Projects</h2>
   <div class="projects-list fade-up">
 
     <div class="project-card">
@@ -685,7 +680,7 @@
           <span class="project-title">Ballistic Trajectory Solver</span>
         </div>
         <p class="project-desc">
-          Physics-based long-range rifle ballistic calculator built from first principles.
+          Physics-based long-range ballistic calculator built from first principles.
           Solves the 6-DOF point-mass ODE using RK4 / <code>scipy.integrate.solve_ivp</code>,
           incorporating G7 drag models, atmospheric correction (temperature, altitude, humidity),
           spin drift, and Coriolis effects. Results validated against JBM Ballistics reference tables.
@@ -704,83 +699,21 @@
       </div>
     </div>
 
-    <div class="project-card">
-      <div>
-        <div class="project-top">
-          <span class="project-folder">📁</span>
-          <span class="project-title">E-Commerce Conversion Modeling (Capstone)</span>
-        </div>
-        <p class="project-desc">
-          Led a team of four to build consumer conversion prediction models on 30M+ customer
-          click-through records. Ran the full pipeline on Google Cloud Platform — data wrangling,
-          cleaning, feature engineering, and model training. Implemented Logistic Regression and
-          XGBoost models, then applied SHAP to identify high-influence conversion factors and
-          crafted an operational schema that yielded an <strong style="color:var(--white)">8% conversion rate improvement</strong>.
-        </p>
-        <div class="project-tech">
-          <span>Python</span><span>XGBoost</span><span>Logistic Regression</span>
-          <span>SHAP</span><span>Google Cloud Platform</span><span>30M+ records</span>
-        </div>
-      </div>
-      <div>
-        <p class="project-meta">Graduate Capstone</p>
-      </div>
-    </div>
-
   </div>
 </section>
 
-<!-- ── EXPERIENCE ───────────────────────────────────────────────────── -->
+<!-- ── EDUCATION ─────────────────────────────────────────────────────── -->
 <section id="experience">
-  <h2 class="section-heading">Experience</h2>
-  <div class="exp-tabs fade-up">
-    <div class="tab-list" role="tablist">
-      <button class="tab-btn active" role="tab" onclick="switchTab(this, 'job1')">Commercial Bank</button>
-      <button class="tab-btn"        role="tab" onclick="switchTab(this, 'job2')">Credit Issuer</button>
-      <button class="tab-btn"        role="tab" onclick="switchTab(this, 'job3')">Internship</button>
-      <button class="tab-btn"        role="tab" onclick="switchTab(this, 'edu')">Education</button>
-    </div>
+  <h2 class="section-heading">Education</h2>
+  <div class="fade-up">
+    <p class="exp-title">M.Eng., Operations Research &amp; Information Engineering <span>· Cornell University</span></p>
+    <p class="exp-date">Aug 2022 — Dec 2023</p>
+    <ul class="exp-bullets" style="margin-bottom:2rem">
+      <li>Relevant coursework: OR Tools for Financial Engineering, Python for Finance, Simulation Modeling.</li>
+    </ul>
 
-    <div id="job1" class="tab-panel active">
-      <p class="exp-title">Data Scientist <span>· Strategy &amp; Analytics, Commercial Banking Risk</span></p>
-      <p class="exp-date">Jul 2025 — Present</p>
-      <ul class="exp-bullets">
-        <li>Developed an <strong>end-to-end analytical dashboard</strong> to support portfolio risk monitoring — encompassing UI/UX design, scalable backend calculation pipelines, and CI/CD deployment to enterprise platform.</li>
-        <li>Resolved key user pain points by redesigning frontend interactions and <strong>optimizing backend algorithms</strong>, reducing dashboard latency by <strong>60%</strong> — outperforming existing Tableau and QuickSight solutions.</li>
-      </ul>
-    </div>
-
-    <div id="job2" class="tab-panel">
-      <p class="exp-title">Data Scientist <span>· Consumer Credit Card</span></p>
-      <p class="exp-date">Feb 2024 — Jun 2025</p>
-      <ul class="exp-bullets">
-        <li>Engineered <strong>underwriting, response, and approval models</strong> using XGBoost with alternative FCRA credit data, delivering a <strong>30% lift in approval rate</strong> and <strong>20% lift in booked accounts</strong> in the direct mail channel.</li>
-        <li>Designed <strong>DataRobot deployment artifacts</strong> and built a post-deployment monitoring framework using <strong>data drift detection and stress testing</strong>, ensuring compliance with credit risk governance policies.</li>
-        <li>Built, optimized, and deployed ML models for an <strong>overlimit strategy</strong> project across all development phases, contributing to <strong>$2M/year in incremental revenue</strong>.</li>
-        <li>Leveraged <strong>Google Cloud Platform</strong> for bureau-specific model development; automated data pipeline processing, model training, scoring, and validation via internal API integration, increasing development efficiency by <strong>40%</strong>.</li>
-        <li>Conducted competitive analysis on customer acquisition; executed <strong>feature engineering on AWS S3</strong> using trade-level data, creating <strong>300+ custom attributes</strong> that led to a <strong>10% lift in model KS</strong>.</li>
-      </ul>
-    </div>
-
-    <div id="job3" class="tab-panel">
-      <p class="exp-title">Data Scientist Intern <span>· Consumer Credit Card</span></p>
-      <p class="exp-date">May 2023 — Aug 2023</p>
-      <ul class="exp-bullets">
-        <li>Devised a <strong>cross-bureau second-look underwriting</strong> strategy using dual-bureau credit scores, producing a <strong>19% lift in expected approval rate</strong> while reducing acquisition spend by 30% when pulling second bureau data.</li>
-        <li>Built a <strong>LightGBM model</strong> for second-look selection, boosting approval rate by an additional <strong>10%</strong>; developed Tableau dashboard to interpret results and translated insights into business strategy for stakeholders.</li>
-      </ul>
-    </div>
-
-    <div id="edu" class="tab-panel">
-      <p class="exp-title">M.Eng., Operations Research &amp; Information Engineering <span>· Cornell University</span></p>
-      <p class="exp-date">Aug 2022 — Dec 2023</p>
-      <ul class="exp-bullets">
-        <li>Relevant coursework: OR Tools for Financial Engineering, Python for Finance, Simulation Modeling.</li>
-      </ul>
-      <br/>
-      <p class="exp-title">B.S., Industrial &amp; Systems Engineering <span>· Virginia Tech</span></p>
-      <p class="exp-date">Aug 2018 — May 2022</p>
-    </div>
+    <p class="exp-title">B.S., Industrial &amp; Systems Engineering <span>· Virginia Tech</span></p>
+    <p class="exp-date">Aug 2018 — May 2022</p>
   </div>
 </section>
 
