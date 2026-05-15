@@ -260,6 +260,57 @@
     }
     .prof-bar { height: 100%; background: var(--teal); border-radius: 2px; }
 
+    /* ── Accordion (ML card deep-dive) ───────────────────────────── */
+    .accordion { margin-top: 1.2rem; border-top: 1px solid rgba(100,255,218,.1); }
+
+    .accordion-btn {
+      width: 100%; background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .6rem 0;
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      color: var(--slate-light);
+      border-bottom: 1px solid rgba(100,255,218,.07);
+      transition: color .2s;
+    }
+    .accordion-btn:hover { color: var(--teal); }
+    .accordion-btn.open { color: var(--teal); }
+
+    .accordion-arrow {
+      font-size: .65rem;
+      transition: transform .25s;
+      color: var(--teal);
+    }
+    .accordion-btn.open .accordion-arrow { transform: rotate(180deg); }
+
+    .accordion-body {
+      display: none;
+      padding: .75rem 0 .5rem;
+      border-bottom: 1px solid rgba(100,255,218,.07);
+    }
+    .accordion-body.open { display: block; }
+
+    .accordion-body ul {
+      list-style: none;
+      display: flex; flex-direction: column; gap: .4rem;
+    }
+    .accordion-body li {
+      font-size: .82rem;
+      line-height: 1.55;
+      color: var(--slate);
+      padding-left: 1rem;
+      position: relative;
+    }
+    .accordion-body li::before {
+      content: '▹';
+      position: absolute; left: 0;
+      color: var(--teal);
+      font-size: .7rem;
+      top: .1rem;
+    }
+    .accordion-body li strong { color: var(--white-bright); font-weight: 600; }
+    .accordion-body li em { color: var(--slate-light); font-style: normal; font-size: .77rem; }
+
     /* ── Projects ─────────────────────────────────────────────────── */
     .projects-list { display: flex; flex-direction: column; gap: 1.5rem; }
 
@@ -472,33 +523,80 @@
   <h2 class="section-heading">Technical Skills</h2>
   <div class="skills-grid fade-up">
 
-    <!-- ML & Modeling -->
-    <div class="skill-card">
+    <!-- ML & Modeling (accordion) -->
+    <div class="skill-card" style="grid-column: 1 / -1;">
       <div class="skill-card-header">
         <span class="skill-icon">🤖</span>
         <span class="skill-card-title">ML &amp; Predictive Modeling</span>
       </div>
+      <p style="font-size:.88rem; line-height:1.7; margin-bottom:1rem;">
+        End-to-end model builder — from raw bureau trade-line data and alternative FCRA credit data
+        through feature engineering, training, evaluation, and production deployment via DataRobot.
+        Primary focus on <strong style="color:var(--white)">classification models</strong> for
+        credit underwriting, marketing response, propensity, and conversion use cases.
+      </p>
       <div class="skill-tags">
         <span class="tag strong">XGBoost</span>
         <span class="tag strong">LightGBM</span>
         <span class="tag strong">Logistic Regression</span>
+        <span class="tag">LSTM (Keras)</span>
         <span class="tag">scikit-learn</span>
-        <span class="tag">SHAP / Explainability</span>
-        <span class="tag">Feature Engineering</span>
+        <span class="tag">SHAP</span>
+        <span class="tag">DataRobot</span>
+        <span class="tag">Propensity Modeling</span>
+        <span class="tag">Uplift Modeling</span>
+        <span class="tag">Customer Segmentation</span>
       </div>
-      <div class="skill-proficiency">
-        <div class="prof-row">
-          <span class="prof-label">Model development (train → deploy)</span>
-          <div class="prof-bar-bg"><div class="prof-bar" style="width:95%"></div></div>
+
+      <div class="accordion">
+
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          Feature Selection
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <ul>
+            <li><strong>Information Value (IV) &amp; Weight of Evidence (WoE)</strong> — industry-standard scorecard binning; IV &gt; 0.3 signals strong predictive power <em>· de facto standard in credit card DS</em></li>
+            <li><strong>Tree-based importance + SHAP</strong> — global feature ranking via gain/split count; SHAP for per-prediction attribution and feature culling</li>
+            <li><strong>Recursive Feature Elimination (RFE)</strong> — wrapper method with cross-validated performance as stopping criterion</li>
+            <li><strong>Variance Inflation Factor (VIF)</strong> — multicollinearity detection; drop features with VIF &gt; 10 before logistic models</li>
+            <li><strong>Monotonicity constraints</strong> — enforce directionally sensible relationships for regulatory and explainability compliance</li>
+            <li><strong>Population Stability Index (PSI) on features</strong> — flag features drifting between train and scoring windows before they degrade the model</li>
+          </ul>
         </div>
-        <div class="prof-row">
-          <span class="prof-label">Feature engineering</span>
-          <div class="prof-bar-bg"><div class="prof-bar" style="width:92%"></div></div>
+
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          Model Evaluation
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <ul>
+            <li><strong>KS Statistic</strong> — primary separation metric in credit card modeling; measures max distance between cumulative good/bad distributions across score bins</li>
+            <li><strong>AUC-ROC &amp; Gini coefficient</strong> — Gini = 2×AUC − 1; threshold-independent rank-ordering performance</li>
+            <li><strong>Lift curves &amp; decile / gains analysis</strong> — "top 2 deciles capture X% of responders" — the language of marketing campaign targeting decisions</li>
+            <li><strong>Calibration &amp; reliability diagrams</strong> — ensures predicted probabilities are well-calibrated when used as continuous scores for cutoff optimization</li>
+            <li><strong>PSI for model stability monitoring</strong> — tracks score distribution shift between development and production populations over time</li>
+            <li><strong>Precision / Recall / F1 &amp; log loss</strong> — used for threshold selection and probabilistic model comparison</li>
+          </ul>
         </div>
-        <div class="prof-row">
-          <span class="prof-label">Model evaluation (KS, AUC, PSI)</span>
-          <div class="prof-bar-bg"><div class="prof-bar" style="width:93%"></div></div>
+
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          Experimentation &amp; A/B Testing
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <ul>
+            <li><strong>Hypothesis framing</strong> — null / alternative hypothesis, one-tailed vs. two-tailed tests; Type I (false positive, α) and Type II (false negative, β) error trade-offs</li>
+            <li><strong>Sample size &amp; power calculation</strong> — pre-experiment sizing using effect size, α, and target power (1−β); prevents underpowered tests that produce inconclusive results</li>
+            <li><strong>p-value vs. confidence interval interpretation</strong> — CI-first reporting avoids binary pass/fail thinking; quantifies magnitude and uncertainty of lift</li>
+            <li><strong>Multiple testing correction</strong> — Bonferroni for conservative control; Benjamini-Hochberg (FDR) when testing many segments simultaneously</li>
+            <li><strong>Stratified &amp; matched randomization</strong> — pre-stratify on key covariates (risk tier, channel, vintage) to reduce variance and prevent imbalanced test/control splits</li>
+            <li><strong>Holdout group design</strong> — permanent holdouts for long-running champion-challenger model evaluation; distinguishes model lift from campaign lift</li>
+            <li><strong>Incremental lift measurement</strong> — isolates treatment effect from organic behavior; bridges A/B testing into uplift modeling for targeting persuadables only</li>
+            <li><strong>Sequential testing &amp; early stopping rules</strong> — alpha-spending functions (O'Brien-Fleming) to allow interim looks without inflating Type I error</li>
+          </ul>
         </div>
+
       </div>
     </div>
 
@@ -700,7 +798,7 @@
     <p class="exp-title">M.Eng., Operations Research &amp; Information Engineering <span>· Cornell University</span></p>
     <p class="exp-date">Aug 2022 — Dec 2023</p>
     <ul class="exp-bullets" style="margin-bottom:2rem">
-      <li>Relevant coursework: OR Tools for Financial Engineering, Python for Finance, Simulation Modeling.</li>
+      <li>Relevant coursework: OR Tools for Financial Engineering, Python for Finance, Simulation Modeling, Machine Learning, Deep Learning.</li>
     </ul>
 
     <p class="exp-title">B.S., Industrial &amp; Systems Engineering <span>· Virginia Tech</span></p>
@@ -745,6 +843,14 @@
     { threshold: 0.12 }
   );
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Accordion
+  function toggleAccordion(btn) {
+    const body = btn.nextElementSibling;
+    const isOpen = btn.classList.contains('open');
+    btn.classList.toggle('open', !isOpen);
+    body.classList.toggle('open', !isOpen);
+  }
 
   // Experience tabs
   function switchTab(btn, panelId) {
